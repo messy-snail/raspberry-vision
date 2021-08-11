@@ -1,0 +1,22 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>icon/save-normal.jpg</file>
+    <file>icon/save-over.jpg</file>
+    <file>icon/lock-normal.jpg</file>
+    <file>icon/lock-over.jpg</file>
+    <file>icon/unlock-normal.jpg</file>
+    <file>icon/unlock-over.jpg</file>
+    <file>icon/debug-normal.jpg</file>
+    <file>icon/debug-over.jpg</file>
+    <file>icon/debug-selected.jpg</file>
+    <file>icon/setting-normal.jpg</file>
+    <file>icon/setting-over.jpg</file>
+    <file>icon/setting-selected.jpg</file>
+    <file>icon/capture-normal.jpg</file>
+    <file>icon/capture-over.jpg</file>
+    <file>icon/cpature-selected.jpg</file>
+    <file>icon/lidar-normal.jpg</file>
+    <file>icon/lidar-over.jpg</file>
+    <file>icon/lidar-selected.jpg</file>
+  </qresource>
+</RCC>
