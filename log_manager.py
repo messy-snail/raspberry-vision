@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import QTextEdit
 from PyQt5.QtCore import QTime, QDateTime
 from PyQt5.QtGui import QTextCursor

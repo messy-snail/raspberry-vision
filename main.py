@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 import resource_rc
 import time
@@ -11,6 +13,8 @@ import label_manager as lm
 import json
 import cv2
 
+
+
 form_class = uic.loadUiType("mainwindow.ui")[0]
 
 class TabBar(QTabBar):
@@ -21,7 +25,8 @@ class TabBar(QTabBar):
 
 class MyWindow(QMainWindow, form_class):
     def __init__(self):
-        super().__init__()
+        super(MyWindow, self).__init__() 
+        # super().__init__()
         self.setupUi(self)
 
         self.cap = None
@@ -34,10 +39,8 @@ class MyWindow(QMainWindow, form_class):
         self.BTN_THUMBNAIL.clicked.connect(self.btnFolderOpenClicked)
         self.BTN_BINARY.clicked.connect(self.btnBinaryClicked)
         self.BTN_EDGE.clicked.connect(self.btnEdgeClicked)
-               
-        
-        
-        ###캠 타이머 설정
+
+        ###캠 타이머 설정         
         self.cam_timer = QTimer()
         self.cam_timer.timeout.connect(self.cam_timer_timeout)
 
@@ -145,23 +148,19 @@ class MyWindow(QMainWindow, form_class):
 
     def btnCaptureClicked(self):
         now = time.localtime()
-        file_name = f'{now.tm_year:02d}{now.tm_mon:02d}{now.tm_mday:02d}-{now.tm_hour:02d}{now.tm_min:02d}{now.tm_sec:02d}'
-        self.zc.capture(file_name)
-        color_img = self.zc.get_color_img()
-        color_depth, real_depth = self.zc.get_depth_img()
-        self.lm.view_original_image(self.LABEL_LIVE_IMAGE_VIEW, color_img)
-        self.lm.view_original_image(self.LABEL_LIVE_DEPTH_VIEW, color_depth)
-        cv2.imwrite(f'./_capture/{file_name}-x.tiff', real_depth[:,:,0])
-        cv2.imwrite(f'./_capture/{file_name}-y.tiff', real_depth[:,:,1])
-        cv2.imwrite(f'./_capture/{file_name}-z.tiff', real_depth[:,:,2])
+        file_name = 'test'
+        # file_name = f'{now.tm_year:02d}{now.tm_mon:02d}{now.tm_mday:02d}-{now.tm_hour:02d}{now.tm_min:02d}{now.tm_sec:02d}'
+
+        # cv2.imwrite(f'./_capture/{file_name}-x.tiff', real_depth[:,:,0])
+        # cv2.imwrite(f'./_capture/{file_name}-y.tiff', real_depth[:,:,1])
+        # cv2.imwrite(f'./_capture/{file_name}-z.tiff', real_depth[:,:,2])
 
 
         color_img = cv2.cvtColor(color_img, cv2.COLOR_BGR2RGB)
-        cv2.imwrite(f'./_capture/{file_name}-color.png', color_img)
+        # cv2.imwrite(f'./_capture/{file_name}-color.png', color_img)
 
         self.log.print_log('캡쳐되었습니다', self.TE_LOG)
-        self.zc.visualizer.run()
-        self.zc.visualizer.destroy_window()
+
 
     
 
