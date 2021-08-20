@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+# from typing_extensions import ParamSpecKwargs
 import resource_rc
 import time
 import log_manager
@@ -37,8 +38,16 @@ class MyWindow(QMainWindow, form_class):
         self.BTN_OPEN.clicked.connect(self.btnOpenClicked)
         self.BTN_CAPTURE.clicked.connect(self.btnCaptureClicked)
         self.BTN_THUMBNAIL.clicked.connect(self.btnFolderOpenClicked)
-        self.BTN_BINARY.clicked.connect(self.btnBinaryClicked)
-        self.BTN_EDGE.clicked.connect(self.btnEdgeClicked)
+        
+        self.RADIO_ORIGINAL.clicked.connect(self.radioOperation)
+        self.RADIO_BINARY.clicked.connect(self.radioOperation)
+        self.RADIO_EDGE.clicked.connect(self.radioOperation)
+
+        self.SLIDER_BIN_TH.valueChanged.connect(self.valueCahnaged)
+        self.SLIDER_EDGE_TH1.valueChanged.connect(self.valueCahnaged)
+        self.SLIDER_EDGE_TH2.valueChanged.connect(self.valueCahnaged)
+
+
 
         ###캠 타이머 설정         
         self.cam_timer = QTimer()
@@ -57,6 +66,13 @@ class MyWindow(QMainWindow, form_class):
 
         self.binary_flag = False
         self.edge_flag = False
+        self.original_flag = False
+
+        self.operation_type =0
+        
+        self.threshold_value = self.SLIDER_BIN_TH.value()
+        self.edge_th1 = self.SLIDER_EDGE_TH1.value()
+        self.edge_th2 = self.SLIDER_EDGE_TH2.value()
 
 
         self.handleFullScreen()
@@ -65,32 +81,32 @@ class MyWindow(QMainWindow, form_class):
 
     def cam_timer_timeout(self):
         _, frame = self.cap.read()
-        
-        if self.binary_flag:
+
+        if self.operation_type==0:
+            try:
+                self.lm.view_original_image(self.LABEL_IMAGE_VIEW, frame, True)
+            
+            except Exception as error:
+                self.log.print_log(str(error), self.TE_LOG, 'red') 
+
+        elif self.operation_type==1:
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            _, bin = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
+            _, bin = cv2.threshold(gray, self.threshold_value, 255, cv2.THRESH_BINARY)
             bin = cv2.cvtColor(bin, cv2.COLOR_GRAY2BGR)
             self.lm.view_original_image(self.LABEL_IMAGE_VIEW, bin, True)
-        if self.edge_flag:
+
+        elif self.operation_type==2:
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            edge = cv2.Canny(gray, 150, 200)
+            edge = cv2.Canny(gray, self.edge_th1, self.edge_th2)
             edge = cv2.cvtColor(edge, cv2.COLOR_GRAY2BGR)
             self.lm.view_original_image(self.LABEL_IMAGE_VIEW, edge, True)
-        try:
-            self.lm.view_original_image(self.LABEL_LIVE_IMAGE_VIEW, frame, True)
-            
-        except Exception as error:
-            self.log.print_log(str(error), self.TE_LOG, 'red')    
-        
-    
+
+
     def handleFullScreen(self):
         if self.isFullScreen():
             self.showNormal()
         else:
             self.showFullScreen()
-        self.changeTabSize(self.VIEW_TAB)
-        # self.changeTabSize(self.WORK_TAB)
-        # self.changeLabelSize(self.WORK_TAB,self.LABEL_IMAGE_VIEW)
 
 
     def changeLabelText(self, label, text):
@@ -99,35 +115,29 @@ class MyWindow(QMainWindow, form_class):
     def btnFolderOpenClicked(self):
         QDesktopServices.openUrl(QUrl.fromLocalFile(self.zc.default_path))
     
-    def btnBinaryClicked(self):
-        print(self.binary_flag)
-        if not self.binary_flag:
-            self.BTN_BINARY.setStyleSheet('QPushButton{background-color:#FA4F41;border-radius:5px;\
-                                        font: bold 10pt "Noto Sans KR"; color:white;}\
-                                        QPushButton:hover{background-color:rgba(250, 155, 155,100);}\
-                                        QPushButton:pressed{background-color:rgba(250, 155, 155,150);}')  
-            self.binary_flag = True
-        else:
-            self.BTN_BINARY.setStyleSheet('QPushButton{background-color:#24ACAC;border-radius:5px;\
-                                        font: bold 10pt "Noto Sans KR"; color:white;}\
-                                        QPushButton:hover{background-color:rgba(135, 194, 221, 100);}\
-                                        QPushButton:pressed{background-color:rgba(135, 194, 221, 150);}')  
-            self.binary_flag = False
-    
-    def btnEdgeClicked(self):
-        if not self.edge_flag:
-            self.BTN_EDGE.setStyleSheet('QPushButton{background-color:#FA4F41;border-radius:5px;\
-                                    font: bold 10pt "Noto Sans KR"; color:white;}\
-                                    QPushButton:hover{background-color:rgba(250, 155, 155,100);}\
-                                    QPushButton:pressed{background-color:rgba(250, 155, 155,150);}')  
-            self.edge_flag = True                                    
-        else:
-            self.BTN_EDGE.setStyleSheet('QPushButton{background-color:#24ACAC;border-radius:5px;\
-                                        font: bold 10pt "Noto Sans KR"; color:white;}\
-                                        QPushButton:hover{background-color:rgba(135, 194, 221, 100);}\
-                                        QPushButton:pressed{background-color:rgba(135, 194, 221, 150);}')  
-            self.edge_flag = False                                        
-        
+   
+    def radioOperation(self):
+        if self.RADIO_ORIGINAL.isChecked():
+            self.operation_type=0
+            self.SLIDER_BIN_TH.setEnabled(False)
+            self.SLIDER_EDGE_TH1.setEnabled(False)
+            self.SLIDER_EDGE_TH2.setEnabled(False)
+        elif self.RADIO_BINARY.isChecked():
+            self.operation_type=1
+            self.SLIDER_BIN_TH.setEnabled(True)
+            self.SLIDER_EDGE_TH1.setEnabled(False)
+            self.SLIDER_EDGE_TH2.setEnabled(False)
+        elif self.RADIO_EDGE.isChecked():
+            self.operation_type=2
+            self.SLIDER_BIN_TH.setEnabled(False)
+            self.SLIDER_EDGE_TH1.setEnabled(True)
+            self.SLIDER_EDGE_TH2.setEnabled(True)
+
+    def valueCahnaged(self):
+        self.threshold_value = self.SLIDER_BIN_TH.value()
+        self.edge_th1 = self.SLIDER_EDGE_TH1.value()
+        self.edge_th2 = self.SLIDER_EDGE_TH2.value()
+        pass
 
 
     def btnOpenClicked(self):
