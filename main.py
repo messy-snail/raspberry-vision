@@ -145,11 +145,11 @@ class MyWindow(QMainWindow, form_class):
             try:
                 self.cap = cv2.VideoCapture(0)
                 if not self.cap.isOpened():
-                    self.log.print_log('카메라 연결 실패', self.TE_LOG, 'red')
+                    self.log.print_log('Fail to cam open', self.TE_LOG, 'red')
                 else:
                     self.cam_timer.start(50)
                     self.BTN_OPEN.setStyleSheet("QPushButton{image:url(:/icon/icon/lidar-selected.jpg); border:0px;}")
-                    self.log.print_log('카메라 연결', self.TE_LOG)
+                    self.log.print_log('Cam open', self.TE_LOG)
             except Exception as error:
                 self.log.print_log(str(error), self.TE_LOG, 'red')
         else:
@@ -169,7 +169,7 @@ class MyWindow(QMainWindow, form_class):
         color_img = cv2.cvtColor(color_img, cv2.COLOR_BGR2RGB)
         # cv2.imwrite(f'./_capture/{file_name}-color.png', color_img)
 
-        self.log.print_log('캡쳐되었습니다', self.TE_LOG)
+        self.log.print_log('captured', self.TE_LOG)
 
 
     

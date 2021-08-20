@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>537</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +25,7 @@
   <property name="maximumSize">
    <size>
     <width>800</width>
-    <height>537</height>
+    <height>536</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -70,6 +70,21 @@ color:white;
       <widget class="QWidget" name="page"/>
       <widget class="QWidget" name="page_2">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="spacing">
@@ -307,9 +322,9 @@ QTabBar::tab
 {
     background:rgb(59, 65, 89);
     color: #7F7F7F;   
-	font: bold 11pt  &quot;Noto Sans KR&quot;;
+	font: bold 10pt  &quot;Noto Sans KR&quot;;
     min-width: 184px;
-    min-height: 20px;
+    min-height: 15px;
     margin-left: 2px;
     margin-right: 1px;
 	border-bottom: 5px solid rgba(255, 255, 255,20);
@@ -322,7 +337,7 @@ border: 2px solid #393F4D;
 
 QTabBar::tab:selected
 {
-	font: bold 11pt  &quot;Noto Sans KR&quot;;
+	font: bold 10pt  &quot;Noto Sans KR&quot;;
 	border-bottom: 5px solid #24ACAC;
     color: white;
 
@@ -363,69 +378,6 @@ QTabBar::tab:pressed
                 <property name="bottomMargin">
                  <number>15</number>
                 </property>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_7">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">font: bold 14pt &quot;Noto Sans KR Medium&quot;;</string>
-                    </property>
-                    <property name="text">
-                     <string>알고리즘 선택</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="Line" name="line_4">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>3</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>3</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background-color:rgba(203, 244, 255, 50);</string>
-                    </property>
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
                 <item>
                  <widget class="QLabel" name="LABEL_IMAGE_VIEW">
                   <property name="sizePolicy">
@@ -744,7 +696,7 @@ qproperty-alignment: AlignCenter;</string>
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>500</height>
+            <height>450</height>
            </size>
           </property>
           <property name="maximumSize">
